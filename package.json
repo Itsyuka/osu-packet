@@ -1,0 +1,22 @@
+{
+  "name": "osu-packet",
+  "version": "1.0.0",
+  "description": "Allows you to read and write packets",
+  "main": "osu-packet.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Itsyuka/osu-packet.git"
+  },
+  "author": "Dillon (Itsyuka)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Itsyuka/osu-packet/issues"
+  },
+  "homepage": "https://github.com/Itsyuka/osu-packet#readme",
+  "dependencies": {
+    "osu-buffer": "^1.2.3"
+  }
+}

@@ -2,12 +2,24 @@
 const OsuBuffer = require('osu-buffer');
 const Packet = require('./packets');
 
+/**
+ * @prop {OsuBuffer} buffer
+ */
 class Base {
+    /**
+     * @param {Buffer?} input
+     */
     constructor(input) {
         this.buffer = OsuBuffer.from((input instanceof Buffer) ? input : []);
     }
 
-    UnmarshalPacket(raw, layout) {
+    /**
+     * Unmarshal's the buffer from the layout
+     * @param {Object} raw
+     * @param {Array} layout
+     * @return {Object}
+     */
+    UnmarshalPacket(raw, layout = []) {
         let data = {};
         layout.forEach(item => {
             switch (item.type.toLowerCase()) {
@@ -122,7 +134,13 @@ class Base {
         return data;
     }
 
-    MarshalPacket(data, layout) {
+    /**
+     * Marshal's a packet to a buffer from a layout
+     * @param {Object?} data
+     * @param {Array} layout
+     * @return {Buffer}
+     */
+    MarshalPacket(data = null, layout = []) {
         let buff = new OsuBuffer();
         layout.forEach(item => {
             switch (item.type) {
@@ -232,6 +250,11 @@ class Base {
         return buff.buffer;
     }
 
+    /**
+     * Writes the packet to the buffer and returns self
+     * @param packet
+     * @return {Base}
+     */
     WritePacket(packet) {
         this.buffer.WriteInt16(packet.id)
             .WriteBoolean(false)
@@ -241,6 +264,10 @@ class Base {
         return this;
     }
 
+    /**
+     * Attempts to parse the whole buffer and returns an array of packets
+     * @return {Array}
+     */
     Parse() {
         let packets = [];
         while (true) {

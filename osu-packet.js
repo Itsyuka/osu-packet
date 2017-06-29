@@ -1,6 +1,8 @@
 'use strict';
+const Bancho = require('./src/bancho');
+const Client = require('./src/client');
 
 module.exports = {
-    Bancho: require('./src/bancho'),
-    Client: require('./src/client')
+    Bancho: Bancho,
+    Client: Client
 };

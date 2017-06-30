@@ -30,7 +30,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserStatus} data
      * @return {Client}
      */
     WriteSendUserStatus(data) {
@@ -64,7 +64,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Message} data
      * @return {Client}
      */
     WriteSendIrcMessage(data) {
@@ -93,7 +93,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Reason} data
      * @return {Client}
      */
     WriteExit(data) {
@@ -111,40 +111,37 @@ class Client extends Base {
      */
     ReadRequestStatusUpdate(raw) {
         return {
-            id: Packet.Client_RequestStatusUpdate, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_RequestStatusUpdate, data: null
         }
     }
 
     /**
      * 
-     * @param {object} data
      * @return {Client}
      */
-    WriteRequestStatusUpdate(data) {
+    WriteRequestStatusUpdate() {
         return this.WritePacket({
-            id: Packet.Client_RequestStatusUpdate, data: this.MarshalPacket(null, [])
+            id: Packet.Client_RequestStatusUpdate, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadPong(raw) {
+    ReadPong() {
         return {
-            id: Packet.Client_Pong, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_Pong, data: null
         }
     }
 
     /**
      * 
-     * @param {object} data
      * @return {Client}
      */
-    WritePong(data) {
+    WritePong() {
         return this.WritePacket({
-            id: Packet.Client_Pong, data: this.MarshalPacket(null, [])
+            id: Packet.Client_Pong, data: this.MarshalPacket()
         })
     }
 
@@ -163,7 +160,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserId} data
      * @return {Client}
      */
     WriteStartSpectating(data) {
@@ -175,24 +172,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadStopSpectating(raw) {
+    ReadStopSpectating() {
         return {
-            id: Packet.Client_StopSpectating, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_StopSpectating, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteStopSpectating(data) {
+    WriteStopSpectating() {
         return this.WritePacket({
-            id: Packet.Client_StopSpectating, data: this.MarshalPacket(null, [])
+            id: Packet.Client_StopSpectating, data: this.MarshalPacket()
         })
     }
 
@@ -214,7 +209,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {ReplayFrame} data
      * @return {Client}
      */
     WriteSpectateFrames(data) {
@@ -229,46 +224,42 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadErrorReport(raw) {
+    ReadErrorReport() {
         return {
-            id: Packet.Client_ErrorReport, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_ErrorReport, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteErrorReport(data) {
+    WriteErrorReport() {
         return this.WritePacket({
-            id: Packet.Client_ErrorReport, data: this.MarshalPacket(null, [])
+            id: Packet.Client_ErrorReport, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadCantSpectate(raw) {
+    ReadCantSpectate() {
         return {
-            id: Packet.Client_CantSpectate, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_CantSpectate, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteCantSpectate(data) {
+    WriteCantSpectate() {
         return this.WritePacket({
-            id: Packet.Client_CantSpectate, data: this.MarshalPacket(null, [])
+            id: Packet.Client_CantSpectate, data: this.MarshalPacket()
         })
     }
 
@@ -290,7 +281,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Message} data
      * @return {Client}
      */
     WriteSendIrcMessagePrivate(data) {
@@ -305,24 +296,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadLobbyPart(raw) {
+    ReadLobbyPart() {
         return {
-            id: Packet.Client_LobbyPart, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_LobbyPart, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteLobbyPart(data) {
+    WriteLobbyPart() {
         return this.WritePacket({
-            id: Packet.Client_LobbyPart, data: this.MarshalPacket(null, [])
+            id: Packet.Client_LobbyPart, data: this.MarshalPacket()
         })
     }
 
@@ -333,18 +322,17 @@ class Client extends Base {
      */
     ReadLobbyJoin(raw) {
         return {
-            id: Packet.Client_LobbyJoin, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_LobbyJoin, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteLobbyJoin(data) {
+    WriteLobbyJoin() {
         return this.WritePacket({
-            id: Packet.Client_LobbyJoin, data: this.MarshalPacket(null, [])
+            id: Packet.Client_LobbyJoin, data: this.MarshalPacket()
         })
     }
 
@@ -378,7 +366,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Match} data
      * @return {Client}
      */
     WriteMatchCreate(data) {
@@ -420,7 +408,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {MatchJoin} data
      * @return {Client}
      */
     WriteMatchJoin(data) {
@@ -433,24 +421,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchPart(raw) {
+    ReadMatchPart() {
         return {
-            id: Packet.Client_MatchPart, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchPart, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchPart(data) {
+    WriteMatchPart() {
         return this.WritePacket({
-            id: Packet.Client_MatchPart, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchPart, data: this.MarshalPacket()
         })
     }
 
@@ -469,7 +455,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {SlotId} data
      * @return {Client}
      */
     WriteMatchChangeSlot(data) {
@@ -481,24 +467,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchReady(raw) {
+    ReadMatchReady() {
         return {
-            id: Packet.Client_MatchReady, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchReady, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchReady(data) {
+    WriteMatchReady() {
         return this.WritePacket({
-            id: Packet.Client_MatchReady, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchReady, data: this.MarshalPacket()
         })
     }
 
@@ -517,7 +501,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {SlotId} data
      * @return {Client}
      */
     WriteMatchLock(data) {
@@ -558,7 +542,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Match} data
      * @return {Client}
      */
     WriteMatchChangeSettings(data) {
@@ -585,24 +569,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchStart(raw) {
+    ReadMatchStart() {
         return {
-            id: Packet.Client_MatchStart, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchStart, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchStart(data) {
+    WriteMatchStart() {
         return this.WritePacket({
-            id: Packet.Client_MatchStart, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchStart, data: this.MarshalPacket()
         })
     }
 
@@ -621,7 +603,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {ScoreFrame} data
      * @return {Client}
      */
     WriteMatchScoreUpdate(data) {
@@ -633,24 +615,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchComplete(raw) {
+    ReadMatchComplete() {
         return {
-            id: Packet.Client_MatchComplete, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchComplete, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchComplete(data) {
+    WriteMatchComplete() {
         return this.WritePacket({
-            id: Packet.Client_MatchComplete, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchComplete, data: this.MarshalPacket()
         })
     }
 
@@ -662,153 +642,141 @@ class Client extends Base {
     ReadMatchChangeMods(raw) {
         return {
             id: Packet.Client_MatchChangeMods, data: this.UnmarshalPacket(raw, [
-                {name: 'mods', type: 'int32'}
+                {name: 'currentMods', type: 'int32'}
             ])
         }
     }
 
     /**
      * 
-     * @param {object} data
+     * @param {CurrentMods} data
      * @return {Client}
      */
     WriteMatchChangeMods(data) {
         return this.WritePacket({
             id: Packet.Client_MatchChangeMods, data: this.MarshalPacket(data, [
-                {name: 'mods', type: 'int32'}
+                {name: 'currentMods', type: 'int32'}
             ])
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchLoadComplete(raw) {
+    ReadMatchLoadComplete() {
         return {
-            id: Packet.Client_MatchLoadComplete, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchLoadComplete, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchLoadComplete(data) {
+    WriteMatchLoadComplete() {
         return this.WritePacket({
-            id: Packet.Client_MatchLoadComplete, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchLoadComplete, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchNoBeatmap(raw) {
+    ReadMatchNoBeatmap() {
         return {
-            id: Packet.Client_MatchNoBeatmap, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchNoBeatmap, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchNoBeatmap(data) {
+    WriteMatchNoBeatmap() {
         return this.WritePacket({
-            id: Packet.Client_MatchNoBeatmap, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchNoBeatmap, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchNotReady(raw) {
+    ReadMatchNotReady() {
         return {
-            id: Packet.Client_MatchNotReady, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchNotReady, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchNotReady(data) {
+    WriteMatchNotReady() {
         return this.WritePacket({
-            id: Packet.Client_MatchNotReady, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchNotReady, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchFailed(raw) {
+    ReadMatchFailed() {
         return {
-            id: Packet.Client_MatchFailed, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchFailed, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchFailed(data) {
+    WriteMatchFailed() {
         return this.WritePacket({
-            id: Packet.Client_MatchFailed, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchFailed, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchHasBeatmap(raw) {
+    ReadMatchHasBeatmap() {
         return {
-            id: Packet.Client_MatchHasBeatmap, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchHasBeatmap, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchHasBeatmap(data) {
+    WriteMatchHasBeatmap() {
         return this.WritePacket({
-            id: Packet.Client_MatchHasBeatmap, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchHasBeatmap, data: this.MarshalPacket()
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchSkipRequest(raw) {
+    ReadMatchSkipRequest() {
         return {
-            id: Packet.Client_MatchSkipRequest, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchSkipRequest, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchSkipRequest(data) {
+    WriteMatchSkipRequest() {
         return this.WritePacket({
-            id: Packet.Client_MatchSkipRequest, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchSkipRequest, data: this.MarshalPacket()
         })
     }
 
@@ -827,7 +795,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {ChannelName} data
      * @return {Client}
      */
     WriteChannelJoin(data) {
@@ -839,24 +807,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadBeatmapInfoRequest(raw) {
+    ReadBeatmapInfoRequest() {
         return {
-            id: Packet.Client_BeatmapInfoRequest, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_BeatmapInfoRequest, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteBeatmapInfoRequest(data) {
+    WriteBeatmapInfoRequest() {
         return this.WritePacket({
-            id: Packet.Client_BeatmapInfoRequest, data: this.MarshalPacket(null, [])
+            id: Packet.Client_BeatmapInfoRequest, data: this.MarshalPacket()
         })
     }
 
@@ -875,7 +841,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {SlotId} data
      * @return {Client}
      */
     WriteMatchTransferHost(data) {
@@ -901,7 +867,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserId} data
      * @return {Client}
      */
     WriteFriendAdd(data) {
@@ -927,7 +893,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserId} data
      * @return {Client}
      */
     WriteFriendRemove(data) {
@@ -939,24 +905,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchChangeTeam(raw) {
+    ReadMatchChangeTeam() {
         return {
-            id: Packet.Client_MatchChangeTeam, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchChangeTeam, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchChangeTeam(data) {
+    WriteMatchChangeTeam() {
         return this.WritePacket({
-            id: Packet.Client_MatchChangeTeam, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchChangeTeam, data: this.MarshalPacket()
         })
     }
 
@@ -975,7 +939,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {ChannelName} data
      * @return {Client}
      */
     WriteChannelLeave(data) {
@@ -1001,7 +965,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {RandomInt} data
      * @return {Client}
      */
     WriteReceiveUpdates(data) {
@@ -1030,7 +994,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Message} data
      * @return {Client}
      */
     WriteSetIrcAwayMessage(data) {
@@ -1059,7 +1023,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserIds} data
      * @return {Client}
      */
     WriteUserStatsRequest(data) {
@@ -1085,7 +1049,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserId} data
      * @return {Client}
      */
     WriteInvite(data) {
@@ -1126,7 +1090,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {Match} data
      * @return {Client}
      */
     WriteMatchChangePassword(data) {
@@ -1167,7 +1131,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {MatchId} data
      * @return {Client}
      */
     WriteSpecialMatchInfoRequest(data) {
@@ -1193,7 +1157,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {UserIds} data
      * @return {Client}
      */
     WriteUserPresenceRequest(data) {
@@ -1205,24 +1169,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadUserPresenceRequestAll(raw) {
+    ReadUserPresenceRequestAll() {
         return {
-            id: Packet.Client_UserPresenceRequestAll, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_UserPresenceRequestAll, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteUserPresenceRequestAll(data) {
+    WriteUserPresenceRequestAll() {
         return this.WritePacket({
-            id: Packet.Client_UserPresenceRequestAll, data: this.MarshalPacket(null, [])
+            id: Packet.Client_UserPresenceRequestAll, data: this.MarshalPacket()
         })
     }
 
@@ -1241,7 +1203,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {BlockPM} data
      * @return {Client}
      */
     WriteUserToggleBlockNonFriendPM(data) {
@@ -1253,24 +1215,22 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadMatchAbort(raw) {
+    ReadMatchAbort() {
         return {
-            id: Packet.Client_MatchAbort, data: this.UnmarshalPacket(raw, [])
+            id: Packet.Client_MatchAbort, data: null
         }
     }
 
     /**
-     * 
-     * @param {object} data
+     *
      * @return {Client}
      */
-    WriteMatchAbort(data) {
+    WriteMatchAbort() {
         return this.WritePacket({
-            id: Packet.Client_MatchAbort, data: this.MarshalPacket(null, [])
+            id: Packet.Client_MatchAbort, data: this.MarshalPacket()
         })
     }
 
@@ -1289,7 +1249,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {MatchId} data
      * @return {Client}
      */
     WriteSpecialJoinMatchChannel(data) {
@@ -1315,7 +1275,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {object} data
+     * @param {MatchId} data
      * @return {Client}
      */
     WriteSpecialLeaveMatchChannel(data) {
@@ -1332,5 +1292,5 @@ module.exports = Client;
 /**
  * @typedef {Object} Packet
  * @prop {Number} id
- * @prop {Object|null} data
+ * @prop {UserStatus|Message|UserId|Reason|ReplayFrame|Match|MatchJoin|SlotId|ScoreFrame|BlockPM|ChannelName|RandomInt|UserIds|CurrentMods|null} data
  */

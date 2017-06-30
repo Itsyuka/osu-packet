@@ -15,11 +15,18 @@ class Base {
 
     /**
      * Unmarshal's the buffer from the layout
-     * @param {Object} raw
+     * @param {OsuBuffer|Buffer} raw
      * @param {Array} layout
      * @return {Object}
      */
     UnmarshalPacket(raw, layout = []) {
+        if(raw instanceof Buffer) {
+            raw = OsuBuffer.from(raw);
+        } else if(raw instanceof OsuBuffer) {
+            // Nothing to do here
+        } else {
+            return null;
+        }
         let data = {};
         layout.forEach(item => {
             switch (item.type.toLowerCase()) {
@@ -184,7 +191,7 @@ class Base {
                     buff.WriteByte(data[item.name]);
                     break;
                 case 'int32array':
-                    buff.WriteInt16(item.data.length);
+                    buff.WriteInt16(data[item.name].length);
                     for(let a = 0; a < data[item.name].length; a++) {
                         buff.WriteInt32(data[item.name][a]);
                     }
@@ -274,7 +281,6 @@ class Base {
             let id;
             let length;
             let raw;
-            let data;
 
             if (!this.buffer.canRead(7)) {
                 break;

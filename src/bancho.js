@@ -56,7 +56,7 @@ class Bancho extends Base {
      */
     WriteCommandError() {
         return this.WritePacket({
-            id: Packet.Bancho_CommandError, data: []
+            id: Packet.Bancho_CommandError, data: this.MarshalPacket()
         })
     }
 
@@ -107,7 +107,7 @@ class Bancho extends Base {
      */
     WritePing() {
         return this.WritePacket({
-            id: Packet.Bancho_Ping, data: []
+            id: Packet.Bancho_Ping, data: this.MarshalPacket()
         })
     }
 
@@ -153,27 +153,56 @@ class Bancho extends Base {
      */
     WriteHandleIrcQuit() {
         return this.WritePacket({
-            id: Packet.Bancho_HandleIrcQuit, data: []
+            id: Packet.Bancho_HandleIrcQuit, data: this.MarshalPacket()
         })
     }
 
     /**
-     *
+     * @param {OsuBuffer} raw
      * @return {Packet}
      */
-    ReadHandleClientUpdate() {
+    ReadHandleOsuUpdate(raw) {
         return {
-            id: Packet.Bancho_HandleClientUpdate, data: null
+            id: Packet.Bancho_HandleOsuUpdate, data: this.UnmarshalPacket(raw, [
+                {name: 'userId', type: 'int32'},
+                {name: 'status', type: 'byte'},
+                {name: 'statusText', type: 'string'},
+                {name: 'beatmapChecksum', type: 'string'},
+                {name: 'currentMods', type: 'uint32'},
+                {name: 'playMode', type: 'byte'},
+                {name: 'beatmapId', type: 'int32'},
+                {name: 'rankedScore', type: 'uint64'},
+                {name: 'accuracy', type: 'float'},
+                {name: 'playCount', type: 'int32'},
+                {name: 'totalScore', type: 'uint64'},
+                {name: 'rank', type: 'int32'},
+                {name: 'performance', type: 'int16'}
+            ])
         }
     }
 
     /**
      *
+     * @param {OsuUpdate} data
      * @return {Bancho}
      */
-    WriteHandleClientUpdate() {
+    WriteHandleOsuUpdate(data) {
         return this.WritePacket({
-            id: Packet.Bancho_HandleClientUpdate, data: []
+            id: Packet.Bancho_HandleOsuUpdate, data: this.MarshalPacket(data, [
+                {name: 'userId', type: 'int32'},
+                {name: 'status', type: 'byte'},
+                {name: 'statusText', type: 'string'},
+                {name: 'beatmapChecksum', type: 'string'},
+                {name: 'currentMods', type: 'uint32'},
+                {name: 'playMode', type: 'byte'},
+                {name: 'beatmapId', type: 'int32'},
+                {name: 'rankedScore', type: 'uint64'},
+                {name: 'accuracy', type: 'float'},
+                {name: 'playCount', type: 'int32'},
+                {name: 'totalScore', type: 'uint64'},
+                {name: 'rank', type: 'int32'},
+                {name: 'performance', type: 'int16'}
+            ])
         })
     }
 
@@ -305,7 +334,7 @@ class Bancho extends Base {
      */
     WriteVersionUpdate() {
         return this.WritePacket({
-            id: Packet.Bancho_VersionUpdate, data: []
+            id: Packet.Bancho_VersionUpdate, data: this.MarshalPacket()
         })
     }
 
@@ -351,7 +380,7 @@ class Bancho extends Base {
      */
     WriteGetAttention() {
         return this.WritePacket({
-            id: Packet.Bancho_GetAttention, data: []
+            id: Packet.Bancho_GetAttention, data: this.MarshalPacket()
         })
     }
 
@@ -591,7 +620,7 @@ class Bancho extends Base {
      */
     WriteMatchJoinFail() {
         return this.WritePacket({
-            id: Packet.Bancho_MatchJoinFail, data: []
+            id: Packet.Bancho_MatchJoinFail, data: this.MarshalPacket()
         })
     }
 
@@ -746,7 +775,7 @@ class Bancho extends Base {
      */
     WriteMatchTransferHost() {
         return this.WritePacket({
-            id: Packet.Bancho_MatchTransferHost, data: []
+            id: Packet.Bancho_MatchTransferHost, data: this.MarshalPacket()
         })
     }
 
@@ -766,7 +795,7 @@ class Bancho extends Base {
      */
     WriteMatchAllPlayersLoaded() {
         return this.WritePacket({
-            id: Packet.Bancho_MatchAllPlayersLoaded, data: []
+            id: Packet.Bancho_MatchAllPlayersLoaded, data: this.MarshalPacket()
         })
     }
 
@@ -812,7 +841,7 @@ class Bancho extends Base {
      */
     WriteMatchComplete() {
         return this.WritePacket({
-            id: Packet.Bancho_MatchComplete, data: []
+            id: Packet.Bancho_MatchComplete, data: this.MarshalPacket()
         })
     }
 
@@ -832,7 +861,7 @@ class Bancho extends Base {
      */
     WriteMatchSkip() {
         return this.WritePacket({
-            id: Packet.Bancho_MatchSkip, data: []
+            id: Packet.Bancho_MatchSkip, data: this.MarshalPacket()
         })
     }
 
@@ -852,7 +881,7 @@ class Bancho extends Base {
      */
     WriteUnauthorised() {
         return this.WritePacket({
-            id: Packet.Bancho_Unauthorised, data: []
+            id: Packet.Bancho_Unauthorised, data: this.MarshalPacket()
         })
     }
 
@@ -984,7 +1013,7 @@ class Bancho extends Base {
      */
     WriteBeatmapInfoReply() {
         return this.WritePacket({
-            id: Packet.Bancho_BeatmapInfoReply, data: []
+            id: Packet.Bancho_BeatmapInfoReply, data: this.MarshalPacket()
         })
     }
 
@@ -1108,7 +1137,7 @@ class Bancho extends Base {
      */
     WriteMonitor() {
         return this.WritePacket({
-            id: Packet.Bancho_Monitor, data: []
+            id: Packet.Bancho_Monitor, data: this.MarshalPacket()
         })
     }
 
@@ -1252,7 +1281,7 @@ class Bancho extends Base {
      */
     WriteChannelListingComplete() {
         return this.WritePacket({
-            id: Packet.Bancho_ChannelListingComplete, data: []
+            id: Packet.Bancho_ChannelListingComplete, data: this.MarshalPacket()
         })
     }
 
@@ -1463,7 +1492,7 @@ class Bancho extends Base {
      */
     WriteVersionUpdateForced() {
         return this.WritePacket({
-            id: Packet.Bancho_VersionUpdateForced, data: []
+            id: Packet.Bancho_VersionUpdateForced, data: this.MarshalPacket()
         })
     }
 
@@ -1509,7 +1538,7 @@ class Bancho extends Base {
      */
     WriteAccountRestricted() {
         return this.WritePacket({
-            id: Packet.Bancho_AccountRestricted, data: []
+            id: Packet.Bancho_AccountRestricted, data: this.MarshalPacket()
         })
     }
 
@@ -1572,157 +1601,5 @@ module.exports = Bancho;
  * @typedef {Object} Packet
  * @prop {Number} id
  * @prop {Reply|UserId|Message|ReplayFrame|ScoreFrame|UserQuit|Match|MatchId|ChannelName|Channel|MessageString|
- *          Friends|TitleImage|UserPresence|Length|GamePassword|UserIds|Protocol|Permissions|ServerHost|null} data
- */
-
-/**
- * @typedef {Object} Reply
- * @prop {Number} reply
- */
-
-/**
- * @typedef {Object} Message
- * @prop {String} sendingClient
- * @prop {String} message
- * @prop {String} target
- * @prop {Number} senderId
- */
-
-/**
- * @typedef {Object} MessageString
- * @prop {String} message
- */
-
-/**
- * @typedef {Object} UserQuit
- * @prop {Number} userId
- * @prop {Number} state
- */
-
-/**
- * @typedef {Object} UserId
- * @prop {Number} userId
- */
-
-/**
- * @typedef {Object} ReplayFrame
- * @prop {Number} extra
- * @prop {Array} replayFrames
- * @prop {Number} action
- * @prop {Object} scoreFrame 
- */
-
-
-/**
- * @typedef {Object} Match
- * @prop {Number} matchId
- * @prop {Boolean} inProgress
- * @prop {Number} matchType
- * @prop {Number} activeMods
- * @prop {String} gameName
- * @prop {String} gamePassword
- * @prop {String} beatmapName
- * @prop {Number} beatmapId
- * @prop {String} beatmapChecksum
- * @prop {Array} slots
- * @prop {Number} playMode
- * @prop {Number} matchScoringType
- * @prop {Number} matchTeamType
- * @prop {Number} specialModes
- * @prop {Array} slotMods
- */
-
-/**
- * @typedef {Object} MatchId
- * @prop {Number} matchId
- */
-
-/**
- * @typedef {Object} SlotId
- * @prop {Number} slotId
- */
-
-/**
- * @typedef {Object} ChannelName
- * @prop {String} channelName
- */
-
-/**
- * @typedef {Object} Channel
- * @prop {String} channelName
- * @prop {String} channelTopic
- * @prop {Number} channelUserCount
- */
-
-/**
- * @typedef {Object} ScoreFrame
- * @prop {Number} time
- * @prop {Number} id
- * @prop {Number} count300
- * @prop {Number} count100
- * @prop {Number} count50
- * @prop {Number} countGeki
- * @prop {Number} countKatu
- * @prop {Number} countMiss
- * @prop {Number} totalScore
- * @prop {Number} maxCombo
- * @prop {Number} currentCombo
- * @prop {Boolean} perfect
- * @prop {Number} currentHp
- * @prop {Number} tagByte
- * @prop {Boolean} usingScoreV2 
- * @prop {Number} comboPortion
- * @prop {Number} bonusPortion
- */
-
-/**
- * @typedef {Object} Friends
- * @prop {Array} friends
- */
-
-/**
- * @typedef {Object} TitleImage
- * @prop {String} titleImage
- */
-
-/**
- * @typedef {Object} Length
- * @prop {Number} length
- */
-
-/**
- * @typedef {Object} UserPresence
- * @prop {Number} userId
- * @prop {String} username
- * @prop {Number} timezone
- * @prop {Number} countryId
- * @prop {Number} permissions
- * @prop {Number} longitude
- * @prop {Number} latitude
- * @prop {Number} rank
- */
-
-/**
- * @typedef {Object} GamePassword
- * @prop {String} gamePassword
- */
-
-/**
- * @typedef {Object} ServerHost
- * @prop {String} serverHost
- */
-
-/**
- * @typedef {Object} UserIds
- * @prop {Array.<Number>} userIds
- */
-
-/**
- * @typedef {Object} Permissions
- * @prop {Number} permissions
- */
-
-/**
- * @typedef {Object} Protocol
- * @prop {Number} protocol
+ *          Friends|TitleImage|UserPresence|Length|GamePassword|UserIds|Protocol|Permissions|OsuUpdate|ServerHost|null} data
  */

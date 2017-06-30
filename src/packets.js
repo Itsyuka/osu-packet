@@ -12,7 +12,7 @@ module.exports = {
     Bancho_Ping: 8,
     Bancho_HandleIrcChangeUsername: 9,
     Bancho_HandleIrcQuit: 10,
-    Bancho_HandleClientUpdate: 11,
+    Bancho_HandleOsuUpdate: 11,
     Bancho_HandleUserQuit: 12,
     Bancho_SpectatorJoined: 13,
     Bancho_SpectatorLeft: 14,
@@ -120,7 +120,7 @@ module.exports = {
         'Ping',
         'HandleIrcChangeUsername',
         'HandleIrcQuit',
-        'HandleClientUpdate',
+        'HandleOsuUpdate',
         'HandleUserQuit',
         'SpectatorJoined',
         'SpectatorLeft',
@@ -221,3 +221,208 @@ module.exports = {
         'SpecialLeaveMatchChannel',
     ]
 };
+
+/**
+ * @typedef {Object} UserId
+ * @prop {Number} userId
+ */
+
+/**
+ * @typedef {Object} UserStatus
+ * @prop {Number} status
+ * @prop {String} statusText
+ * @prop {String} beatmapChecksum
+ * @prop {Number} currentMods
+ * @prop {Number} playMode
+ * @prop {Number} beatmapId
+ */
+
+/**
+ * @typedef {Object} Match
+ * @prop {Number} matchId
+ * @prop {Boolean} inProgress
+ * @prop {Number} matchType
+ * @prop {Number} activeMods
+ * @prop {String} gameName
+ * @prop {String} gamePassword
+ * @prop {String} beatmapName
+ * @prop {Number} beatmapId
+ * @prop {String} beatmapChecksum
+ * @prop {Array} slots
+ * @prop {Number} playMode
+ * @prop {Number} matchScoringType
+ * @prop {Number} matchTeamType
+ * @prop {Number} specialModes
+ * @prop {Array} slotMods
+ */
+
+/**
+ * @typedef {Object} SlotId
+ * @prop {Number} slotId
+ */
+
+/**
+ * @typedef {Object} MatchJoin
+ * @prop {Number} matchId
+ * @prop {String} gamePassword
+ */
+
+/**
+ * @typedef {Object} Message
+ * @prop {String} sendingClient
+ * @prop {String} message
+ * @prop {String} target
+ * @prop {Number} senderId
+ */
+
+/**
+ * @typedef {Object} ScoreFrame
+ * @prop {Number} time
+ * @prop {Number} id
+ * @prop {Number} count300
+ * @prop {Number} count100
+ * @prop {Number} count50
+ * @prop {Number} countGeki
+ * @prop {Number} countKatu
+ * @prop {Number} countMiss
+ * @prop {Number} totalScore
+ * @prop {Number} maxCombo
+ * @prop {Number} currentCombo
+ * @prop {Boolean} perfect
+ * @prop {Number} currentHp
+ * @prop {Number} tagByte
+ * @prop {Boolean} usingScoreV2
+ * @prop {Number} comboPortion
+ * @prop {Number} bonusPortion
+ */
+
+/**
+ * @typedef {Object} ReplayFrame
+ * @prop {Number} extra
+ * @prop {Array} replayFrames
+ * @prop {Number} action
+ * @prop {Object} scoreFrame
+ */
+
+/**
+ * @typedef {Object} ChannelName
+ * @prop {String} channelName
+ */
+
+/**
+ * @typedef {Object} UserIds
+ * @prop {Array.<Number>} userIds
+ */
+
+/**
+ * @typedef {Object} CurrentMods
+ * @prop {Number} currentMods
+ */
+
+/**
+ * @typedef {Object} Reason
+ * @prop {Number} reason
+ */
+
+/**
+ * @typedef {Object} RandomInt
+ * @prop {Number} randomInt
+ */
+
+/**
+ * @typedef {Object} MatchId
+ * @prop {Number} matchId
+ */
+
+/**
+ * @typedef {Object} BlockPM
+ * @prop {Number} blockPM
+ */
+
+
+/**
+ * @typedef {Object} Reply
+ * @prop {Number} reply
+ */
+
+/**
+ * @typedef {Object} MessageString
+ * @prop {String} message
+ */
+
+/**
+ * @typedef {Object} UserQuit
+ * @prop {Number} userId
+ * @prop {Number} state
+ */
+
+/**
+ * @typedef {Object} Channel
+ * @prop {String} channelName
+ * @prop {String} channelTopic
+ * @prop {Number} channelUserCount
+ */
+
+/**
+ * @typedef {Object} Friends
+ * @prop {Array} friends
+ */
+
+/**
+ * @typedef {Object} TitleImage
+ * @prop {String} titleImage
+ */
+
+/**
+ * @typedef {Object} Length
+ * @prop {Number} length
+ */
+
+/**
+ * @typedef {Object} UserPresence
+ * @prop {Number} userId
+ * @prop {String} username
+ * @prop {Number} timezone
+ * @prop {Number} countryId
+ * @prop {Number} permissions
+ * @prop {Number} longitude
+ * @prop {Number} latitude
+ * @prop {Number} rank
+ */
+
+/**
+ * @typedef {Object} OsuUpdate
+ * @prop {Number} userId
+ * @prop {Number} status
+ * @prop {String} statusText
+ * @prop {String} beatmapChecksum
+ * @prop {Number} currentMods
+ * @prop {Number} playMode
+ * @prop {Number} beatmapId
+ * @prop {Number} rankedScore
+ * @prop {Number} accuracy
+ * @prop {Number} playCount
+ * @prop {Number} totalScore
+ * @prop {Number} rank
+ * @prop {Number} performance
+ */
+
+/**
+ * @typedef {Object} GamePassword
+ * @prop {String} gamePassword
+ */
+
+/**
+ * @typedef {Object} ServerHost
+ * @prop {String} serverHost
+ */
+
+/**
+ * @typedef {Object} Permissions
+ * @prop {Number} permissions
+ */
+
+/**
+ * @typedef {Object} Protocol
+ * @prop {Number} protocol
+ */

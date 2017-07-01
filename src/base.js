@@ -298,6 +298,14 @@ class Base {
 
         return packets;
     }
+
+    /**
+     * Returns a buffer
+     * @return {Buffer}
+     */
+    get toBuffer() {
+        return this.buffer.buffer;
+    }
 }
 
 module.exports = Base;

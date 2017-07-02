@@ -1,6 +1,6 @@
 {
   "name": "osu-packet",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Allows you to read and write packets",
   "main": "osu-packet.js",
   "scripts": {

@@ -70,8 +70,9 @@ class Base {
                     data[item.name] = raw.ReadByte();
                     break;
                 case 'int32array':
+                    let len = raw.ReadInt16();
                     data[item.name] = [];
-                    for (let i = 0; i < raw.ReadInt16(); i++) {
+                    for(let i = 0; i < len; i++) {
                         data[item.name].push(raw.ReadInt32());
                     }
                     break;

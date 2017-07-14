@@ -14,216 +14,239 @@ class Base {
     }
 
     /**
+     * Writes a set of data to a buffer
+     * @param {Object} o
+     * @return {Buffer}
+     */
+    Write(o) {
+        let buff = new OsuBuffer();
+        switch (o.type) {
+            case 'int8':
+                buff.WriteInt8(o.data);
+                break;
+            case 'uint8':
+                buff.WriteUInt8(o.data);
+                break;
+            case 'int16':
+                buff.WriteInt16(o.data);
+                break;
+            case 'uint16':
+                buff.WriteUInt16(o.data);
+                break;
+            case 'int32':
+                buff.WriteInt32(o.data);
+                break;
+            case 'uint32':
+                buff.WriteUInt32(o.data);
+                break;
+            case 'int64':
+                buff.WriteInt64(o.data);
+                break;
+            case 'uint64':
+                buff.WriteUInt64(o.data);
+                break;
+            case 'string':
+                buff.WriteOsuString(o.data, o.nullable);
+                break;
+            case 'float':
+                buff.WriteFloat(o.data);
+                break;
+            case 'double':
+                buff.WriteDouble(o.data);
+                break;
+            case 'boolean':
+                buff.WriteBoolean(o.data);
+                break;
+            case 'byte':
+                buff.WriteByte(o.data);
+                break;
+            case 'int32array': {
+                buff.WriteInt16(o.data.length);
+                for (let i = 0; i < o.data.length; i++) {
+                    buff.WriteInt32(o.data[i]);
+                }
+                break;
+            }
+            case 'replayframes': {
+                buff.WriteUInt16(o.data.length);
+                for (let i = 0; i < o.data.length; i++) {
+                    buff.WriteByte(o.data[i].buttonState)
+                        .WriteByte(o.data[i].bt)
+                        .WriteFloat(o.data[i].mouseX)
+                        .WriteFloat(o.data[i].mouseY)
+                        .WriteInt32(o.data[i].time);
+                }
+                break;
+            }
+            case 'scoreframe':
+                buff.WriteInt32(o.data.time)
+                    .WriteByte(o.data.id)
+                    .WriteUInt16(o.data.count300)
+                    .WriteUInt16(o.data.count100)
+                    .WriteUInt16(o.data.count50)
+                    .WriteUInt16(o.data.countGeki)
+                    .WriteUInt16(o.data.countKatu)
+                    .WriteUInt16(o.data.countMiss)
+                    .WriteInt32(o.data.totalScore)
+                    .WriteUInt16(o.data.maxCombo)
+                    .WriteUInt16(o.data.currentCombo)
+                    .WriteBoolean(o.data.perfect)
+                    .WriteByte(o.data.currentHp)
+                    .WriteByte(o.data.tagByte)
+                    .WriteBoolean(o.data.usingScoreV2);
+                if (o.data.usingScoreV2) {
+                    buff.WriteDouble(o.data.comboPortion)
+                        .WriteDouble(o.data.bonusPortion);
+                }
+                break;
+            case 'multislots': {
+                for (let a = 0; a < 16; a++) {
+                    buff.WriteByte(o[a].status);
+                }
+                for (let b = 0; b < 16; b++) {
+                    buff.WriteByte(o[b].team);
+                }
+                for (let c = 0; c < 16; c++) {
+                    if ((o[c].status & (4 | 8 | 16 | 32 | 64)) > 0) {
+                        buff.WriteInt32(o[c].playerId);
+                    }
+                }
+                break;
+            }
+            /*
+             * !!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!
+             * This is only for multiplayer stuff, will break anything if you use it elsewhere
+             */
+            case 'multislotmods': {
+                if ((o['specialModes'] & 1) > 0) {
+                    for (let d = 0; d < 16; d++) {
+                        buff.WriteUInt32(o[item.name][d].mods);
+                    }
+                }
+                break;
+            }
+        }
+
+        return buff.buffer;
+    }
+
+    /**
+     * Reads a set of data from a buffer
+     * @param {OsuBuffer} buff
+     * @param {Object} layout
+     * @return {Object|Array}
+     */
+    Read(buff, layout) {
+        let data = {};
+        switch (layout.type.toLowerCase()) {
+            case 'int8':
+                data = buff.ReadInt8();
+                break;
+            case 'uint8':
+                data = buff.ReadUInt8();
+                break;
+            case 'int16':
+                data = buff.ReadInt16();
+                break;
+            case 'uint16':
+                data = buff.ReadUInt16();
+                break;
+            case 'int32':
+                data = buff.ReadInt32();
+                break;
+            case 'uint32':
+                data = buff.ReadUInt32();
+                break;
+            case 'int64':
+                data = buff.ReadInt64();
+                break;
+            case 'uint64':
+                data = buff.ReadUInt64();
+                break;
+            case 'string':
+                data = buff.ReadOsuString();
+                break;
+            case 'float':
+                data = buff.ReadFloat();
+                break;
+            case 'double':
+                data = buff.ReadDouble();
+                break;
+            case 'boolean':
+                data = buff.ReadBoolean();
+                break;
+            case 'byte':
+                data = buff.ReadByte();
+                break;
+            case 'int32array': {
+                let len = buff.ReadInt16();
+                data = [];
+                for (let i = 0; i < len; i++) {
+                    data.push(buff.ReadInt32());
+                }
+                break;
+            }
+            case 'replayframes': {
+                data = [];
+                let len = buff.ReadUInt16();
+                for (let i = 0; i < len; i++) {
+                    data.push({
+                        buttonState: buff.ReadByte(),
+                        bt: buff.ReadByte(),
+                        mouseX: buff.ReadFloat(),
+                        mouseY: buff.ReadFloat(),
+                        time: buff.ReadInt32()
+                    });
+                }
+                break;
+            }
+            case 'scoreframe':
+                data = {
+                    time: buff.ReadInt32(),
+                    id: buff.ReadByte(),
+                    count300: buff.ReadUInt16(),
+                    count100: buff.ReadUInt16(),
+                    count50: buff.ReadUInt16(),
+                    countGeki: buff.ReadUInt16(),
+                    countKatu: buff.ReadUInt16(),
+                    countMiss: buff.ReadUInt16(),
+                    totalScore: buff.ReadInt32(),
+                    maxCombo: buff.ReadUInt16(),
+                    currentCombo: buff.ReadUInt16(),
+                    perfect: buff.ReadBoolean(),
+                    currentHp: buff.ReadByte(),
+                    tagByte: buff.ReadByte(),
+                    usingScoreV2: buff.ReadBoolean(),
+                };
+                data.comboPortion = data.usingScoreV2 ? buff.ReadDouble() : 0;
+                data.bonusPortion = data.usingScoreV2 ? buff.ReadDouble() : 0;
+                break;
+        }
+        return data;
+    }
+
+    /**
      * Unmarshal's the buffer from the layout
      * @param {OsuBuffer|Buffer} raw
      * @param {Array|Object|Null} layout
      * @return {Object|Null}
      */
     UnmarshalPacket(raw, layout = null) {
-        if(raw instanceof Buffer) {
+        if (raw instanceof Buffer) {
             raw = OsuBuffer.from(raw);
-        } else if(raw instanceof OsuBuffer) {
+        } else if (raw instanceof OsuBuffer) {
             // Nothing to do here
         } else {
             return null;
         }
         let data = {};
-        if(layout instanceof Object) {
-            switch (layout.type.toLowerCase()) {
-                case 'int8':
-                    data = raw.ReadInt8();
-                    break;
-                case 'uint8':
-                    data = raw.ReadUInt8();
-                    break;
-                case 'int16':
-                    data = raw.ReadInt16();
-                    break;
-                case 'uint16':
-                    data = raw.ReadUInt16();
-                    break;
-                case 'int32':
-                    data = raw.ReadInt32();
-                    break;
-                case 'uint32':
-                    data = raw.ReadUInt32();
-                    break;
-                case 'int64':
-                    data = raw.ReadInt64();
-                    break;
-                case 'uint64':
-                    data = raw.ReadUInt64();
-                    break;
-                case 'string':
-                    data = raw.ReadOsuString();
-                    break;
-                case 'float':
-                    data = raw.ReadFloat();
-                    break;
-                case 'double':
-                    data = raw.ReadDouble();
-                    break;
-                case 'boolean':
-                    data = raw.ReadBoolean();
-                    break;
-                case 'byte':
-                    data = raw.ReadByte();
-                    break;
-                case 'int32array':
-                    let len = raw.ReadInt16();
-                    data = [];
-                    for (let i = 0; i < len; i++) {
-                        data.push(raw.ReadInt32());
-                    }
-                    break;
-                case 'replayframes':
-                    data = [];
-                    let rLen = raw.ReadUInt16();
-                    for (let r = 0; r < rLen; r++) {
-                        data.push({
-                            buttonState: raw.ReadByte(),
-                            bt: raw.ReadByte(),
-                            mouseX: raw.ReadFloat(),
-                            mouseY: raw.ReadFloat(),
-                            time: raw.ReadInt32()
-                        });
-                    }
-                    break;
-                case 'scoreframe':
-                    data = {
-                        time: raw.ReadInt32(),
-                        id: raw.ReadByte(),
-                        count300: raw.ReadUInt16(),
-                        count100: raw.ReadUInt16(),
-                        count50: raw.ReadUInt16(),
-                        countGeki: raw.ReadUInt16(),
-                        countKatu: raw.ReadUInt16(),
-                        countMiss: raw.ReadUInt16(),
-                        totalScore: raw.ReadInt32(),
-                        maxCombo: raw.ReadUInt16(),
-                        currentCombo: raw.ReadUInt16(),
-                        perfect: raw.ReadBoolean(),
-                        currentHp: raw.ReadByte(),
-                        tagByte: raw.ReadByte(),
-                        usingScoreV2: raw.ReadBoolean(),
-                    };
-                    data.comboPortion = data.usingScoreV2 ? raw.ReadDouble() : 0;
-                    data.bonusPortion = data.usingScoreV2 ? raw.ReadDouble() : 0;
-                    break;
-            }
-        } else if(layout instanceof Array) {
+        if (layout instanceof Object) {
+            data = this.Read(raw, layout);
+        } else if (layout instanceof Array) {
             layout.forEach(item => {
-                switch (item.type.toLowerCase()) {
-                    case 'int8':
-                        data[item.name] = raw.ReadInt8();
-                        break;
-                    case 'uint8':
-                        data[item.name] = raw.ReadUInt8();
-                        break;
-                    case 'int16':
-                        data[item.name] = raw.ReadInt16();
-                        break;
-                    case 'uint16':
-                        data[item.name] = raw.ReadUInt16();
-                        break;
-                    case 'int32':
-                        data[item.name] = raw.ReadInt32();
-                        break;
-                    case 'uint32':
-                        data[item.name] = raw.ReadUInt32();
-                        break;
-                    case 'int64':
-                        data[item.name] = raw.ReadInt64();
-                        break;
-                    case 'uint64':
-                        data[item.name] = raw.ReadUInt64();
-                        break;
-                    case 'string':
-                        data[item.name] = raw.ReadOsuString();
-                        break;
-                    case 'float':
-                        data[item.name] = raw.ReadFloat();
-                        break;
-                    case 'double':
-                        data[item.name] = raw.ReadDouble();
-                        break;
-                    case 'boolean':
-                        data[item.name] = raw.ReadBoolean();
-                        break;
-                    case 'byte':
-                        data[item.name] = raw.ReadByte();
-                        break;
-                    case 'int32array':
-                        let len = raw.ReadInt16();
-                        data[item.name] = [];
-                        for (let i = 0; i < len; i++) {
-                            data[item.name].push(raw.ReadInt32());
-                        }
-                        break;
-                    case 'replayframes':
-                        data[item.name] = [];
-                        let rLen = raw.ReadUInt16();
-                        for (let r = 0; r < rLen; r++) {
-                            data[item.name].push({
-                                buttonState: raw.ReadByte(),
-                                bt: raw.ReadByte(),
-                                mouseX: raw.ReadFloat(),
-                                mouseY: raw.ReadFloat(),
-                                time: raw.ReadInt32()
-                            });
-                        }
-                        break;
-                    case 'scoreframe':
-                        data[item.name] = {
-                            time: raw.ReadInt32(),
-                            id: raw.ReadByte(),
-                            count300: raw.ReadUInt16(),
-                            count100: raw.ReadUInt16(),
-                            count50: raw.ReadUInt16(),
-                            countGeki: raw.ReadUInt16(),
-                            countKatu: raw.ReadUInt16(),
-                            countMiss: raw.ReadUInt16(),
-                            totalScore: raw.ReadInt32(),
-                            maxCombo: raw.ReadUInt16(),
-                            currentCombo: raw.ReadUInt16(),
-                            perfect: raw.ReadBoolean(),
-                            currentHp: raw.ReadByte(),
-                            tagByte: raw.ReadByte(),
-                            usingScoreV2: raw.ReadBoolean(),
-                        };
-                        data[item.name].comboPortion = data[item.name].usingScoreV2 ? raw.ReadDouble() : 0;
-                        data[item.name].bonusPortion = data[item.name].usingScoreV2 ? raw.ReadDouble() : 0;
-                        break;
-                    case 'multislots':
-                        data[item.name] = [];
-                        for (let a = 0; a < 16; a++) {
-                            data[item.name][a] = {};
-                            data[item.name][a].status = raw.ReadByte();
-                        }
-                        for (let b = 0; b < 16; b++) {
-                            data[item.name][b].team = raw.ReadByte();
-                        }
-                        for (let c = 0; c < 16; c++) {
-                            data[item.name][c].playerId = (data[item.name][c].status & (4 | 8 | 16 | 32 | 64)) > 0 ?
-                                raw.ReadInt32() : 0;
-                        }
-                        break;
-                    /*
-                     * !!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!
-                     * This is only for multiplayer stuff, will break anything if you use it elsewhere
-                     */
-                    case 'multislotmods':
-                        data[item.name] = [];
-                        if ((data['specialModes'] & 1) > 0) {
-                            for (let d = 0; d < 16; d++) {
-                                data[item.name][d].mods = raw.ReadUInt32();
-                            }
-                        }
-                        break;
-                }
+                data[item.name] = this.Read(raw, item);
             });
         }
-
         return data;
     }
 
@@ -235,213 +258,19 @@ class Base {
      */
     MarshalPacket(data = null, layout = []) {
         let buff = new OsuBuffer();
-        if(layout instanceof Object) {
-            switch (layout.type) {
-                case 'int8':
-                    buff.WriteInt8(data);
-                    break;
-                case 'uint8':
-                    buff.WriteUInt8(data);
-                    break;
-                case 'int16':
-                    buff.WriteInt16(data);
-                    break;
-                case 'uint16':
-                    buff.WriteUInt16(data);
-                    break;
-                case 'int32':
-                    buff.WriteInt32(data);
-                    break;
-                case 'uint32':
-                    buff.WriteUInt32(data);
-                    break;
-                case 'int64':
-                    buff.WriteInt64(data);
-                    break;
-                case 'uint64':
-                    buff.WriteUInt64(data);
-                    break;
-                case 'string':
-                    buff.WriteOsuString(data, layout.nullable);
-                    break;
-                case 'float':
-                    buff.WriteFloat(data);
-                    break;
-                case 'double':
-                    buff.WriteDouble(data);
-                    break;
-                case 'boolean':
-                    buff.WriteBoolean(data);
-                    break;
-                case 'byte':
-                    buff.WriteByte(data);
-                    break;
-                case 'int32array':
-                    buff.WriteInt16(data.length);
-                    for (let a = 0; a < data.length; a++) {
-                        buff.WriteInt32(data[a]);
-                    }
-                    break;
-                case 'replayframes':
-                    buff.WriteUInt16(data.length);
-                    for (let r = 0; r < data.length; r++) {
-                        buff.WriteByte(data[r].buttonState)
-                            .WriteByte(data[r].bt)
-                            .WriteFloat(data[r].mouseX)
-                            .WriteFloat(data[r].mouseY)
-                            .WriteInt32(data[r].time);
-                    }
-                    break;
-                case 'scoreframe':
-                    buff.WriteInt32(data.time)
-                        .WriteByte(data.id)
-                        .WriteUInt16(data.count300)
-                        .WriteUInt16(data.count100)
-                        .WriteUInt16(data.count50)
-                        .WriteUInt16(data.countGeki)
-                        .WriteUInt16(data.countKatu)
-                        .WriteUInt16(data.countMiss)
-                        .WriteInt32(data.totalScore)
-                        .WriteUInt16(data.maxCombo)
-                        .WriteUInt16(data.currentCombo)
-                        .WriteBoolean(data.perfect)
-                        .WriteByte(data.currentHp)
-                        .WriteByte(data.tagByte)
-                        .WriteBoolean(data.usingScoreV2);
-                    if (data.usingScoreV2) {
-                        buff.WriteDouble(data.comboPortion)
-                            .WriteDouble(data.bonusPortion);
-                    }
-                    break;
-                case 'multislots':
-                    for (let a = 0; a < 16; a++) {
-                        buff.WriteByte(data[a].status);
-                    }
-                    for (let b = 0; b < 16; b++) {
-                        buff.WriteByte(data[b].team);
-                    }
-                    for (let c = 0; c < 16; c++) {
-                        if ((data[c].status & (4 | 8 | 16 | 32 | 64)) > 0) {
-                            buff.WriteInt32(data[c].playerId);
-                        }
-                    }
-                    break;
-                /*
-                 * !!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!
-                 * This is only for multiplayer stuff, will break anything if you use it elsewhere
-                 */
-                case 'multislotmods':
-                    if ((data['specialModes'] & 1) > 0) {
-                        for (let d = 0; d < 16; d++) {
-                            buff.WriteUInt32(data[item.name][d].mods);
-                        }
-                    }
-                    break;
-            }
-        } else if(layout instanceof Array) {
+        if (layout instanceof Object) {
+            buff.WriteBuffer(this.Write({
+                data: data,
+                type: layout.type,
+                nullable: layout.nullable || false
+            }));
+        } else if (layout instanceof Array) {
             layout.forEach(item => {
-                switch (item.type) {
-                    case 'int8':
-                        buff.WriteInt8(data[item.name]);
-                        break;
-                    case 'uint8':
-                        buff.WriteUInt8(data[item.name]);
-                        break;
-                    case 'int16':
-                        buff.WriteInt16(data[item.name]);
-                        break;
-                    case 'uint16':
-                        buff.WriteUInt16(data[item.name]);
-                        break;
-                    case 'int32':
-                        buff.WriteInt32(data[item.name]);
-                        break;
-                    case 'uint32':
-                        buff.WriteUInt32(data[item.name]);
-                        break;
-                    case 'int64':
-                        buff.WriteInt64(data[item.name]);
-                        break;
-                    case 'uint64':
-                        buff.WriteUInt64(data[item.name]);
-                        break;
-                    case 'string':
-                        buff.WriteOsuString(data[item.name], item.nullable);
-                        break;
-                    case 'float':
-                        buff.WriteFloat(data[item.name]);
-                        break;
-                    case 'double':
-                        buff.WriteDouble(data[item.name]);
-                        break;
-                    case 'boolean':
-                        buff.WriteBoolean(data[item.name]);
-                        break;
-                    case 'byte':
-                        buff.WriteByte(data[item.name]);
-                        break;
-                    case 'int32array':
-                        buff.WriteInt16(data[item.name].length);
-                        for (let a = 0; a < data[item.name].length; a++) {
-                            buff.WriteInt32(data[item.name][a]);
-                        }
-                        break;
-                    case 'replayframes':
-                        buff.WriteUInt16(data[item.name].length);
-                        for (let r = 0; r < data[item.name].length; r++) {
-                            buff.WriteByte(data[item.name][r].buttonState)
-                                .WriteByte(data[item.name][r].bt)
-                                .WriteFloat(data[item.name][r].mouseX)
-                                .WriteFloat(data[item.name][r].mouseY)
-                                .WriteInt32(data[item.name][r].time);
-                        }
-                        break;
-                    case 'scoreframe':
-                        buff.WriteInt32(data[item.name].time)
-                            .WriteByte(data[item.name].id)
-                            .WriteUInt16(data[item.name].count300)
-                            .WriteUInt16(data[item.name].count100)
-                            .WriteUInt16(data[item.name].count50)
-                            .WriteUInt16(data[item.name].countGeki)
-                            .WriteUInt16(data[item.name].countKatu)
-                            .WriteUInt16(data[item.name].countMiss)
-                            .WriteInt32(data[item.name].totalScore)
-                            .WriteUInt16(data[item.name].maxCombo)
-                            .WriteUInt16(data[item.name].currentCombo)
-                            .WriteBoolean(data[item.name].perfect)
-                            .WriteByte(data[item.name].currentHp)
-                            .WriteByte(data[item.name].tagByte)
-                            .WriteBoolean(data[item.name].usingScoreV2);
-                        if (data[item.name].usingScoreV2) {
-                            buff.WriteDouble(data[item.name].comboPortion)
-                                .WriteDouble(data[item.name].bonusPortion);
-                        }
-                        break;
-                    case 'multislots':
-                        for (let a = 0; a < 16; a++) {
-                            buff.WriteByte(data[item.name][a].status);
-                        }
-                        for (let b = 0; b < 16; b++) {
-                            buff.WriteByte(data[item.name][b].team);
-                        }
-                        for (let c = 0; c < 16; c++) {
-                            if ((data[item.name][c].status & (4 | 8 | 16 | 32 | 64)) > 0) {
-                                buff.WriteInt32(data[item.name][c].playerId);
-                            }
-                        }
-                        break;
-                    /*
-                     * !!!!!!!!!!!!!!!!WARNING!!!!!!!!!!!!!!!!
-                     * This is only for multiplayer stuff, will break anything if you use it elsewhere
-                     */
-                    case 'multislotmods':
-                        if ((data['specialModes'] & 1) > 0) {
-                            for (let d = 0; d < 16; d++) {
-                                buff.WriteUInt32(data[item.name][d].mods);
-                            }
-                        }
-                        break;
-                }
+                buff.WriteBuffer(this.Write({
+                    data: data[item.name],
+                    type: item.type,
+                    nullable: item.nullable || false
+                }));
             });
         }
 
@@ -482,9 +311,7 @@ class Base {
             raw = this.buffer.Slice(length);
             try {
                 packets.push(this[`Read${Packet.idToString[id]}`](raw));
-            } catch(e) {
-                console.warn('Count not find the function', `Read${Packet.idToString[id]}()!`);
-            }
+            } catch (e) {}
         }
 
         return packets;

@@ -1,6 +1,7 @@
 'use strict';
 const Base = require('./base');
 const Packet = require('./packets');
+const Layouts = require('./layouts');
 
 /**
  * @extends {Base}
@@ -17,14 +18,7 @@ class Client extends Base {
      */
     ReadSendUserStatus(raw) {
         return {
-            id: Packet.Client_SendUserStatus, data: this.UnmarshalPacket(raw, [
-                {name: 'status', type: 'byte'},
-                {name: 'statusText', type: 'string'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'currentMods', type: 'uint32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'beatmapId', type: 'int32'}
-            ])
+            id: Packet.Client_SendUserStatus, data: this.UnmarshalPacket(raw, Layouts.userStatus)
         }
     }
 
@@ -35,14 +29,7 @@ class Client extends Base {
      */
     WriteSendUserStatus(data) {
         return this.WritePacket({
-            id: Packet.Client_SendUserStatus, data: this.MarshalPacket(data, [
-                {name: 'status', type: 'byte'},
-                {name: 'statusText', type: 'string'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'currentMods', type: 'uint32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'beatmapId', type: 'int32'},
-            ])
+            id: Packet.Client_SendUserStatus, data: this.MarshalPacket(data, Layouts.userStatus)
         })
     }
 
@@ -53,12 +40,7 @@ class Client extends Base {
      */
     ReadSendIrcMessage(raw) {
         return {
-            id: Packet.Client_SendIrcMessage, data: this.UnmarshalPacket(raw, [
-                {name: 'sendingClient', type: 'string'},
-                {name: 'message', type: 'string'},
-                {name: 'target', type: 'string'},
-                {name: 'senderId', type: 'int32'}
-            ])
+            id: Packet.Client_SendIrcMessage, data: this.UnmarshalPacket(raw, Layouts.message)
         }
     }
 
@@ -69,12 +51,7 @@ class Client extends Base {
      */
     WriteSendIrcMessage(data) {
         return this.WritePacket({
-            id: Packet.Client_SendIrcMessage, data: this.MarshalPacket(data, [
-                {name: 'sendingClient', type: 'string'},
-                {name: 'message', type: 'string'},
-                {name: 'target', type: 'string'},
-                {name: 'senderId', type: 'int32'}
-            ])
+            id: Packet.Client_SendIrcMessage, data: this.MarshalPacket(data, Layouts.message)
         })
     }
 
@@ -85,9 +62,7 @@ class Client extends Base {
      */
     ReadExit(raw) {
         return {
-            id: Packet.Client_Exit, data: this.UnmarshalPacket(raw, [
-                {name: 'reason', type: 'int32'}
-            ])
+            id: Packet.Client_Exit, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -98,18 +73,15 @@ class Client extends Base {
      */
     WriteExit(data) {
         return this.WritePacket({
-            id: Packet.Client_Exit, data: this.MarshalPacket(data, [
-                {name: 'reason', type: 'int32', data: data.reason}
-            ])
+            id: Packet.Client_Exit, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadRequestStatusUpdate(raw) {
+    ReadRequestStatusUpdate() {
         return {
             id: Packet.Client_RequestStatusUpdate, data: null
         }
@@ -152,9 +124,7 @@ class Client extends Base {
      */
     ReadStartSpectating(raw) {
         return {
-            id: Packet.Client_StartSpectating, data: this.UnmarshalPacket(raw, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_StartSpectating, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -165,9 +135,7 @@ class Client extends Base {
      */
     WriteStartSpectating(data) {
         return this.WritePacket({
-            id: Packet.Client_StartSpectating, data: this.MarshalPacket(data, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_StartSpectating, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -198,12 +166,7 @@ class Client extends Base {
      */
     ReadSpectateFrames(raw) {
         return {
-            id: Packet.Client_SpectateFrames, data: this.UnmarshalPacket(raw, [
-                {name: 'extra', type: 'int32'},
-                {name: 'replayFrames', type: 'replayframes'},
-                {name: 'action', type: 'byte'},
-                {name: 'scoreFrame', type: 'scoreframe'}
-            ])
+            id: Packet.Client_SpectateFrames, data: this.UnmarshalPacket(raw, Layouts.spectateFrames)
         }
     }
 
@@ -214,12 +177,7 @@ class Client extends Base {
      */
     WriteSpectateFrames(data) {
         return this.WritePacket({
-            id: Packet.Client_SpectateFrames, data: this.MarshalPacket(data, [
-                {name: 'extra', type: 'int32'},
-                {name: 'replayFrames', type: 'replayframes'},
-                {name: 'action', type: 'byte'},
-                {name: 'scoreFrame', type: 'scoreframe'}
-            ])
+            id: Packet.Client_SpectateFrames, data: this.MarshalPacket(data, Layouts.spectateFrames)
         })
     }
 
@@ -270,12 +228,7 @@ class Client extends Base {
      */
     ReadSendIrcMessagePrivate(raw) {
         return {
-            id: Packet.Client_SendIrcMessagePrivate, data: this.UnmarshalPacket(raw, [
-                {name: 'sendingClient', type: 'string'},
-                {name: 'message', type: 'string'},
-                {name: 'target', type: 'string'},
-                {name: 'senderId', type: 'int32'}
-            ])
+            id: Packet.Client_SendIrcMessagePrivate, data: this.UnmarshalPacket(raw, Layouts.message)
         }
     }
 
@@ -286,12 +239,7 @@ class Client extends Base {
      */
     WriteSendIrcMessagePrivate(data) {
         return this.WritePacket({
-            id: Packet.Client_SendIrcMessagePrivate, data: this.MarshalPacket(data, [
-                {name: 'sendingClient', type: 'string'},
-                {name: 'message', type: 'string'},
-                {name: 'target', type: 'string'},
-                {name: 'senderId', type: 'int32'}
-            ])
+            id: Packet.Client_SendIrcMessagePrivate, data: this.MarshalPacket(data, Layouts.message)
         })
     }
 
@@ -316,11 +264,10 @@ class Client extends Base {
     }
 
     /**
-     * 
-     * @param {OsuBuffer} raw
+     *
      * @return {Packet}
      */
-    ReadLobbyJoin(raw) {
+    ReadLobbyJoin() {
         return {
             id: Packet.Client_LobbyJoin, data: null
         }
@@ -343,24 +290,7 @@ class Client extends Base {
      */
     ReadMatchCreate(raw) {
         return {
-            id: Packet.Client_MatchCreate, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int16'},
-                {name: 'inProgress', type: 'boolean'},
-                {name: 'matchType', type: 'byte'},
-                {name: 'activeMods', type: 'uint32'},
-                {name: 'gameName', type: 'string'},
-                {name: 'gamePassword', type: 'string'},
-                {name: 'beatmapName', type: 'string'},
-                {name: 'beatmapId', type: 'int32'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'slots', type: 'multislots'},
-                {name: 'host', type: 'int32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'matchScoringType', type: 'byte'},
-                {name: 'matchTeamType', type: 'byte'},
-                {name: 'specialModes', type: 'byte'},
-                {name: 'slotMods', type: 'multislotmods'}
-            ])
+            id: Packet.Client_MatchCreate, data: this.UnmarshalPacket(raw, Layouts.multiplayerLobby)
         }
     }
 
@@ -371,24 +301,7 @@ class Client extends Base {
      */
     WriteMatchCreate(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchCreate, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int16'},
-                {name: 'inProgress', type: 'boolean'},
-                {name: 'matchType', type: 'byte'},
-                {name: 'activeMods', type: 'uint32'},
-                {name: 'gameName', type: 'string'},
-                {name: 'gamePassword', type: 'string'},
-                {name: 'beatmapName', type: 'string'},
-                {name: 'beatmapId', type: 'int32'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'slots', type: 'multislots'},
-                {name: 'host', type: 'int32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'matchScoringType', type: 'byte'},
-                {name: 'matchTeamType', type: 'byte'},
-                {name: 'specialModes', type: 'byte'},
-                {name: 'slotMods', type: 'multislotmods'}
-            ])
+            id: Packet.Client_MatchCreate, data: this.MarshalPacket(data, Layouts.multiplayerLobby)
         })
     }
 
@@ -399,10 +312,7 @@ class Client extends Base {
      */
     ReadMatchJoin(raw) {
         return {
-            id: Packet.Client_MatchJoin, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int32'},
-                {name: 'gamePassword', type: 'string'}
-            ])
+            id: Packet.Client_MatchJoin, data: this.UnmarshalPacket(raw, Layouts.multiplayerJoin)
         }
     }
 
@@ -413,10 +323,7 @@ class Client extends Base {
      */
     WriteMatchJoin(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchJoin, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int32'},
-                {name: 'gamePassword', type: 'string'}
-            ])
+            id: Packet.Client_MatchJoin, data: this.MarshalPacket(data, Layouts.multiplayerJoin)
         })
     }
 
@@ -447,22 +354,18 @@ class Client extends Base {
      */
     ReadMatchChangeSlot(raw) {
         return {
-            id: Packet.Client_MatchChangeSlot, data: this.UnmarshalPacket(raw, [
-                {name: 'slotId', type: 'int32'}
-            ])
+            id: Packet.Client_MatchChangeSlot, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
     /**
      * 
-     * @param {SlotId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteMatchChangeSlot(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchChangeSlot, data: this.MarshalPacket(data, [
-                {name: 'slotId', type: 'int32'}
-            ])
+            id: Packet.Client_MatchChangeSlot, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -493,22 +396,18 @@ class Client extends Base {
      */
     ReadMatchLock(raw) {
         return {
-            id: Packet.Client_MatchLock, data: this.UnmarshalPacket(raw, [
-                {name: 'slotId', type: 'int32'}
-            ])
+            id: Packet.Client_MatchLock, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
     /**
      * 
-     * @param {SlotId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteMatchLock(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchLock, data: this.MarshalPacket(data, [
-                {name: 'slotId', type: 'int32'}
-            ])
+            id: Packet.Client_MatchLock, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -519,24 +418,7 @@ class Client extends Base {
      */
     ReadMatchChangeSettings(raw) {
         return {
-            id: Packet.Client_MatchChangeSettings, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int16'},
-                {name: 'inProgress', type: 'boolean'},
-                {name: 'matchType', type: 'byte'},
-                {name: 'activeMods', type: 'uint32'},
-                {name: 'gameName', type: 'string'},
-                {name: 'gamePassword', type: 'string'},
-                {name: 'beatmapName', type: 'string'},
-                {name: 'beatmapId', type: 'int32'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'slots', type: 'multislots'},
-                {name: 'host', type: 'int32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'matchScoringType', type: 'byte'},
-                {name: 'matchTeamType', type: 'byte'},
-                {name: 'specialModes', type: 'byte'},
-                {name: 'slotMods', type: 'multislotmods'}
-            ])
+            id: Packet.Client_MatchChangeSettings, data: this.UnmarshalPacket(raw, Layouts.multiplayerLobby)
         }
     }
 
@@ -547,24 +429,7 @@ class Client extends Base {
      */
     WriteMatchChangeSettings(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchChangeSettings, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int16'},
-                {name: 'inProgress', type: 'boolean'},
-                {name: 'matchType', type: 'byte'},
-                {name: 'activeMods', type: 'uint32'},
-                {name: 'gameName', type: 'string'},
-                {name: 'gamePassword', type: 'string'},
-                {name: 'beatmapName', type: 'string'},
-                {name: 'beatmapId', type: 'int32'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'slots', type: 'multislots'},
-                {name: 'host', type: 'int32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'matchScoringType', type: 'byte'},
-                {name: 'matchTeamType', type: 'byte'},
-                {name: 'specialModes', type: 'byte'},
-                {name: 'slotMods', type: 'multislotmods'}
-            ])
+            id: Packet.Client_MatchChangeSettings, data: this.MarshalPacket(data, Layouts.multiplayerLobby)
         })
     }
 
@@ -595,9 +460,7 @@ class Client extends Base {
      */
     ReadMatchScoreUpdate(raw) {
         return {
-            id: Packet.Client_MatchScoreUpdate, data: this.UnmarshalPacket(raw, [
-                {name: 'scoreFrame', type: 'scoreframe'}
-            ])
+            id: Packet.Client_MatchScoreUpdate, data: this.UnmarshalPacket(raw, {type: 'scoreframe'})
         }
     }
 
@@ -608,9 +471,7 @@ class Client extends Base {
      */
     WriteMatchScoreUpdate(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchScoreUpdate, data: this.MarshalPacket(data, [
-                {name: 'scoreFrame', type: 'scoreframe'}
-            ])
+            id: Packet.Client_MatchScoreUpdate, data: this.MarshalPacket(data, {type: 'scoreframe'})
         })
     }
 
@@ -641,9 +502,7 @@ class Client extends Base {
      */
     ReadMatchChangeMods(raw) {
         return {
-            id: Packet.Client_MatchChangeMods, data: this.UnmarshalPacket(raw, [
-                {name: 'currentMods', type: 'int32'}
-            ])
+            id: Packet.Client_MatchChangeMods, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -654,9 +513,7 @@ class Client extends Base {
      */
     WriteMatchChangeMods(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchChangeMods, data: this.MarshalPacket(data, [
-                {name: 'currentMods', type: 'int32'}
-            ])
+            id: Packet.Client_MatchChangeMods, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -787,9 +644,7 @@ class Client extends Base {
      */
     ReadChannelJoin(raw) {
         return {
-            id: Packet.Client_ChannelJoin, data: this.UnmarshalPacket(raw, [
-                {name: 'channelName', type: 'string'}
-            ])
+            id: Packet.Client_ChannelJoin, data: this.UnmarshalPacket(raw, {type: 'string'})
         }
     }
 
@@ -800,9 +655,7 @@ class Client extends Base {
      */
     WriteChannelJoin(data) {
         return this.WritePacket({
-            id: Packet.Client_ChannelJoin, data: this.MarshalPacket(data, [
-                {name: 'channelName', type: 'string'}
-            ])
+            id: Packet.Client_ChannelJoin, data: this.MarshalPacket(data, {type: 'string'})
         })
     }
 
@@ -833,9 +686,7 @@ class Client extends Base {
      */
     ReadMatchTransferHost(raw) {
         return {
-            id: Packet.Client_MatchTransferHost, data: this.UnmarshalPacket(raw, [
-                {name: 'slotId', type: 'int32'}
-            ])
+            id: Packet.Client_MatchTransferHost, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -846,9 +697,7 @@ class Client extends Base {
      */
     WriteMatchTransferHost(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchTransferHost, data: this.MarshalPacket(data, [
-                {name: 'slotId', type: 'int32'}
-            ])
+            id: Packet.Client_MatchTransferHost, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -859,9 +708,7 @@ class Client extends Base {
      */
     ReadFriendAdd(raw) {
         return {
-            id: Packet.Client_FriendAdd, data: this.UnmarshalPacket(raw, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_FriendAdd, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -872,9 +719,7 @@ class Client extends Base {
      */
     WriteFriendAdd(data) {
         return this.WritePacket({
-            id: Packet.Client_FriendAdd, data: this.MarshalPacket(data, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_FriendAdd, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -885,9 +730,7 @@ class Client extends Base {
      */
     ReadFriendRemove(raw) {
         return {
-            id: Packet.Client_FriendRemove, data: this.UnmarshalPacket(raw, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_FriendRemove, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -898,9 +741,7 @@ class Client extends Base {
      */
     WriteFriendRemove(data) {
         return this.WritePacket({
-            id: Packet.Client_FriendRemove, data: this.MarshalPacket(data, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_FriendRemove, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -931,9 +772,7 @@ class Client extends Base {
      */
     ReadChannelLeave(raw) {
         return {
-            id: Packet.Client_ChannelLeave, data: this.UnmarshalPacket(raw, [
-                {name: 'channelName', type: 'string'}
-            ])
+            id: Packet.Client_ChannelLeave, data: this.UnmarshalPacket(raw, {type: 'string'})
         }
     }
 
@@ -944,9 +783,7 @@ class Client extends Base {
      */
     WriteChannelLeave(data) {
         return this.WritePacket({
-            id: Packet.Client_ChannelLeave, data: this.MarshalPacket(data, [
-                {name: 'channelName', type: 'string'}
-            ])
+            id: Packet.Client_ChannelLeave, data: this.MarshalPacket(data, {type: 'string'})
         })
     }
 
@@ -957,9 +794,7 @@ class Client extends Base {
      */
     ReadReceiveUpdates(raw) {
         return {
-            id: Packet.Client_ReceiveUpdates, data: this.UnmarshalPacket(raw, [
-                {name: 'randomInt', type: 'int32'}
-            ])
+            id: Packet.Client_ReceiveUpdates, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -970,9 +805,7 @@ class Client extends Base {
      */
     WriteReceiveUpdates(data) {
         return this.WritePacket({
-            id: Packet.Client_ReceiveUpdates, data: this.MarshalPacket(data, [
-                {name: 'randomInt', type: 'int32'}
-            ])
+            id: Packet.Client_ReceiveUpdates, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -983,12 +816,7 @@ class Client extends Base {
      */
     ReadSetIrcAwayMessage(raw) {
         return {
-            id: Packet.Client_SetIrcAwayMessage, data: this.UnmarshalPacket(raw, [
-                {name: 'sendingClient', type: 'string'},
-                {name: 'message', type: 'string'},
-                {name: 'target', type: 'string'},
-                {name: 'senderId', type: 'int32'}
-            ])
+            id: Packet.Client_SetIrcAwayMessage, data: this.UnmarshalPacket(raw, Layouts.message)
         }
     }
 
@@ -999,12 +827,7 @@ class Client extends Base {
      */
     WriteSetIrcAwayMessage(data) {
         return this.WritePacket({
-            id: Packet.Client_SetIrcAwayMessage, data: this.MarshalPacket(data, [
-                {name: 'sendingClient', type: 'string'},
-                {name: 'message', type: 'string'},
-                {name: 'target', type: 'string'},
-                {name: 'senderId', type: 'int32'}
-            ])
+            id: Packet.Client_SetIrcAwayMessage, data: this.MarshalPacket(data, Layouts.message)
         })
     }
 
@@ -1015,9 +838,7 @@ class Client extends Base {
      */
     ReadUserStatsRequest(raw) {
         return {
-            id: Packet.Client_UserStatsRequest, data: this.UnmarshalPacket(raw, [
-                {name: 'userIds', type: 'int32array'}
-            ])
+            id: Packet.Client_UserStatsRequest, data: this.UnmarshalPacket(raw, {type: 'int32array'})
         }
     }
 
@@ -1028,9 +849,7 @@ class Client extends Base {
      */
     WriteUserStatsRequest(data) {
         return this.WritePacket({
-            id: Packet.Client_UserStatsRequest, data: this.MarshalPacket(data, [
-                {name: 'userIds', type: 'int32array'}
-            ])
+            id: Packet.Client_UserStatsRequest, data: this.MarshalPacket(data, {type: 'int32array'})
         })
     }
 
@@ -1041,9 +860,7 @@ class Client extends Base {
      */
     ReadInvite(raw) {
         return {
-            id: Packet.Client_Invite, data: this.UnmarshalPacket(raw, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_Invite, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -1054,9 +871,7 @@ class Client extends Base {
      */
     WriteInvite(data) {
         return this.WritePacket({
-            id: Packet.Client_Invite, data: this.MarshalPacket(data, [
-                {name: 'userId', type: 'int32'}
-            ])
+            id: Packet.Client_Invite, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -1067,24 +882,7 @@ class Client extends Base {
      */
     ReadMatchChangePassword(raw) {
         return {
-            id: Packet.Client_MatchChangePassword, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int16'},
-                {name: 'inProgress', type: 'boolean'},
-                {name: 'matchType', type: 'byte'},
-                {name: 'activeMods', type: 'uint32'},
-                {name: 'gameName', type: 'string'},
-                {name: 'gamePassword', type: 'string'},
-                {name: 'beatmapName', type: 'string'},
-                {name: 'beatmapId', type: 'int32'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'slots', type: 'multislots'},
-                {name: 'host', type: 'int32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'matchScoringType', type: 'byte'},
-                {name: 'matchTeamType', type: 'byte'},
-                {name: 'specialModes', type: 'byte'},
-                {name: 'slotMods', type: 'multislotmods'}
-            ])
+            id: Packet.Client_MatchChangePassword, data: this.UnmarshalPacket(raw, Layouts.multiplayerLobby)
         }
     }
 
@@ -1095,24 +893,7 @@ class Client extends Base {
      */
     WriteMatchChangePassword(data) {
         return this.WritePacket({
-            id: Packet.Client_MatchChangePassword, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int16'},
-                {name: 'inProgress', type: 'boolean'},
-                {name: 'matchType', type: 'byte'},
-                {name: 'activeMods', type: 'uint32'},
-                {name: 'gameName', type: 'string'},
-                {name: 'gamePassword', type: 'string'},
-                {name: 'beatmapName', type: 'string'},
-                {name: 'beatmapId', type: 'int32'},
-                {name: 'beatmapChecksum', type: 'string'},
-                {name: 'slots', type: 'multislots'},
-                {name: 'host', type: 'int32'},
-                {name: 'playMode', type: 'byte'},
-                {name: 'matchScoringType', type: 'byte'},
-                {name: 'matchTeamType', type: 'byte'},
-                {name: 'specialModes', type: 'byte'},
-                {name: 'slotMods', type: 'multislotmods'}
-            ])
+            id: Packet.Client_MatchChangePassword, data: this.MarshalPacket(data, Layouts.multiplayerLobby)
         })
     }
 
@@ -1123,9 +904,7 @@ class Client extends Base {
      */
     ReadSpecialMatchInfoRequest(raw) {
         return {
-            id: Packet.Client_SpecialMatchInfoRequest, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int32'}
-            ])
+            id: Packet.Client_SpecialMatchInfoRequest, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -1136,9 +915,7 @@ class Client extends Base {
      */
     WriteSpecialMatchInfoRequest(data) {
         return this.WritePacket({
-            id: Packet.Client_SpecialMatchInfoRequest, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int32'}
-            ])
+            id: Packet.Client_SpecialMatchInfoRequest, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -1149,9 +926,7 @@ class Client extends Base {
      */
     ReadUserPresenceRequest(raw) {
         return {
-            id: Packet.Client_UserPresenceRequest, data: this.UnmarshalPacket(raw, [
-                {name: 'userIds', type: 'int32array'}
-            ])
+            id: Packet.Client_UserPresenceRequest, data: this.UnmarshalPacket(raw, {type: 'int32array'})
         }
     }
 
@@ -1162,9 +937,7 @@ class Client extends Base {
      */
     WriteUserPresenceRequest(data) {
         return this.WritePacket({
-            id: Packet.Client_UserPresenceRequest, data: this.MarshalPacket(data, [
-                {name: 'userIds', type: 'int32array'}
-            ])
+            id: Packet.Client_UserPresenceRequest, data: this.MarshalPacket(data, {type: 'int32array'})
         })
     }
 
@@ -1195,9 +968,7 @@ class Client extends Base {
      */
     ReadUserToggleBlockNonFriendPM(raw) {
         return {
-            id: Packet.Client_UserToggleBlockNonFriendPM, data: this.UnmarshalPacket(raw, [
-                {name: 'blockPM', type: 'int32'}
-            ])
+            id: Packet.Client_UserToggleBlockNonFriendPM, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
@@ -1208,9 +979,7 @@ class Client extends Base {
      */
     WriteUserToggleBlockNonFriendPM(data) {
         return this.WritePacket({
-            id: Packet.Client_UserToggleBlockNonFriendPM, data: this.MarshalPacket(data, [
-                {name: 'blockPM', type: 'int32'}
-            ])
+            id: Packet.Client_UserToggleBlockNonFriendPM, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 

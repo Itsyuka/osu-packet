@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/Itsyuka/osu-packet#readme",
   "dependencies": {
-    "osu-buffer": "^1.2.3"
+    "osu-buffer": "^1.3.1"
   }
 }

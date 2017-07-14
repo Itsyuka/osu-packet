@@ -241,10 +241,10 @@ class Base {
         }
         let data = {};
         if (layout instanceof Object) {
-            data = this.Read(raw, layout);
+            data = this.Read(buff, layout);
         } else if (layout instanceof Array) {
             layout.forEach(item => {
-                data[item.name] = this.Read(raw, item);
+                data[item.name] = this.Read(buff, item);
             });
         }
         return data;

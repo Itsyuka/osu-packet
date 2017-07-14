@@ -232,12 +232,12 @@ class Base {
      * @return {Object|Null}
      */
     UnmarshalPacket(raw, layout = null) {
-        if (raw instanceof Buffer) {
-            raw = OsuBuffer.from(raw);
-        } else if (raw instanceof OsuBuffer) {
-            // Nothing to do here
-        } else {
+        if(!raw) {
             return null;
+        }
+        let buff = raw;
+        if (raw instanceof Buffer) {
+            buff = OsuBuffer.from(raw);
         }
         let data = {};
         if (layout instanceof Object) {
@@ -258,13 +258,7 @@ class Base {
      */
     MarshalPacket(data = null, layout = []) {
         let buff = new OsuBuffer();
-        if (layout instanceof Object) {
-            buff.WriteBuffer(this.Write({
-                data: data,
-                type: layout.type,
-                nullable: layout.nullable || false
-            }));
-        } else if (layout instanceof Array) {
+        if (layout instanceof Array) {
             layout.forEach(item => {
                 buff.WriteBuffer(this.Write({
                     data: data[item.name],
@@ -272,6 +266,12 @@ class Base {
                     nullable: item.nullable || false
                 }));
             });
+        } else if (layout instanceof Object) {
+            buff.WriteBuffer(this.Write({
+                data: data,
+                type: layout.type,
+                nullable: layout.nullable || false
+            }));
         }
 
         return buff.buffer;
@@ -304,7 +304,7 @@ class Base {
             let raw;
 
             if (!this.buffer.canRead(7)) {
-                killed = true;
+                break;
             }
             id = this.buffer.ReadInt16();
             this.buffer.ReadBoolean();

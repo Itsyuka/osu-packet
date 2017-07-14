@@ -68,7 +68,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {Reason} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteExit(data) {
@@ -130,7 +130,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteStartSpectating(data) {
@@ -508,7 +508,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {CurrentMods} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteMatchChangeMods(data) {
@@ -650,7 +650,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {ChannelName} data
+     * @param {String} data
      * @return {Client}
      */
     WriteChannelJoin(data) {
@@ -692,7 +692,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {SlotId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteMatchTransferHost(data) {
@@ -714,7 +714,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteFriendAdd(data) {
@@ -736,7 +736,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteFriendRemove(data) {
@@ -778,7 +778,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {ChannelName} data
+     * @param {String} data
      * @return {Client}
      */
     WriteChannelLeave(data) {
@@ -800,7 +800,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {RandomInt} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteReceiveUpdates(data) {
@@ -844,7 +844,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {UserIds} data
+     * @param {Array} data
      * @return {Client}
      */
     WriteUserStatsRequest(data) {
@@ -866,7 +866,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteInvite(data) {
@@ -910,7 +910,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {MatchId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteSpecialMatchInfoRequest(data) {
@@ -932,7 +932,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {UserIds} data
+     * @param {Array} data
      * @return {Client}
      */
     WriteUserPresenceRequest(data) {
@@ -974,7 +974,7 @@ class Client extends Base {
 
     /**
      * 
-     * @param {BlockPM} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteUserToggleBlockNonFriendPM(data) {
@@ -1010,22 +1010,18 @@ class Client extends Base {
      */
     ReadSpecialJoinMatchChannel(raw) {
         return {
-            id: Packet.Client_SpecialJoinMatchChannel, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int32'}
-            ])
+            id: Packet.Client_SpecialJoinMatchChannel, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
     /**
      * 
-     * @param {MatchId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteSpecialJoinMatchChannel(data) {
         return this.WritePacket({
-            id: Packet.Client_SpecialJoinMatchChannel, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int32'}
-            ])
+            id: Packet.Client_SpecialJoinMatchChannel, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 
@@ -1036,22 +1032,18 @@ class Client extends Base {
      */
     ReadSpecialLeaveMatchChannel(raw) {
         return {
-            id: Packet.Client_SpecialLeaveMatchChannel, data: this.UnmarshalPacket(raw, [
-                {name: 'matchId', type: 'int32'}
-            ])
+            id: Packet.Client_SpecialLeaveMatchChannel, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
     /**
      * 
-     * @param {MatchId} data
+     * @param {Number} data
      * @return {Client}
      */
     WriteSpecialLeaveMatchChannel(data) {
         return this.WritePacket({
-            id: Packet.Client_SpecialLeaveMatchChannel, data: this.MarshalPacket(data, [
-                {name: 'matchId', type: 'int32'}
-            ])
+            id: Packet.Client_SpecialLeaveMatchChannel, data: this.MarshalPacket(data, {type: 'int32'})
         })
     }
 }
@@ -1061,5 +1053,5 @@ module.exports = Client;
 /**
  * @typedef {Object} Packet
  * @prop {Number} id
- * @prop {UserStatus|Message|UserId|Reason|ReplayFrame|Match|MatchJoin|SlotId|ScoreFrame|BlockPM|ChannelName|RandomInt|UserIds|CurrentMods|null} data
+ * @prop {UserStatus|Message|ReplayFrame|Match|MatchJoin|ScoreFrame|String|Number|Array|null} data
  */

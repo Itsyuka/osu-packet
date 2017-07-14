@@ -28,7 +28,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {Reply} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteLoginReply(data) {
@@ -111,7 +111,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {MessageString} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteHandleIrcChangeUsername(data) {
@@ -196,7 +196,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteSpectatorJoined(data) {
@@ -218,7 +218,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteSpectatorLeft(data) {
@@ -282,7 +282,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteSpectatorCantSpectate(data) {
@@ -324,7 +324,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {MessageString} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteAnnounce(data) {
@@ -390,7 +390,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {MatchId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteMatchDisband(data) {
@@ -454,7 +454,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteFellowSpectatorJoined(data) {
@@ -476,7 +476,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteFellowSpectatorLeft(data) {
@@ -582,7 +582,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {SlotId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteMatchPlayerFailed(data) {
@@ -664,7 +664,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {ChannelName} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteChannelJoinSuccess(data) {
@@ -708,7 +708,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {ChannelName} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteChannelRevoked(data) {
@@ -772,7 +772,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {Permissions} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteLoginPermissions(data) {
@@ -794,7 +794,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {Friends} data
+     * @param {Array} data
      * @return {Bancho}
      */
     WriteFriendsList(data) {
@@ -816,7 +816,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {Protocol} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteProtocolNegotiation(data) {
@@ -838,7 +838,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {TitleImage} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteTitleUpdate(data) {
@@ -880,7 +880,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {SlotId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteMatchPlayerSkipped(data) {
@@ -924,7 +924,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {Length} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteRestart(data) {
@@ -988,7 +988,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {GamePassword} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteMatchChangePassword(data) {
@@ -999,17 +999,18 @@ class Bancho extends Base {
 
     /**
      *
+     * @param {OsuBuffer} raw
      * @return {Packet}
      */
-    ReadBanInfo() {
+    ReadBanInfo(raw) {
         return {
-            id: Packet.Bancho_BanInfo, data: null
+            id: Packet.Bancho_BanInfo, data: this.UnmarshalPacket(raw, {type: 'int32'})
         }
     }
 
     /**
      *
-     * @param {Length} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteBanInfo(data) {
@@ -1031,7 +1032,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteUserSilenced(data) {
@@ -1053,7 +1054,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserId} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteUserPresenceSingle(data) {
@@ -1075,7 +1076,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {UserIds} data
+     * @param {Array} data
      * @return {Bancho}
      */
     WriteUserPresenceBundle(data) {
@@ -1161,7 +1162,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {Length} data
+     * @param {Number} data
      * @return {Bancho}
      */
     WriteSwitchServer(data) {
@@ -1203,7 +1204,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {MessageString} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteRTX(data) {
@@ -1225,7 +1226,7 @@ class Bancho extends Base {
 
     /**
      *
-     * @param {ServerHost} data
+     * @param {String} data
      * @return {Bancho}
      */
     WriteSwitchTourneyServer(data) {
@@ -1240,6 +1241,6 @@ module.exports = Bancho;
 /**
  * @typedef {Object} Packet
  * @prop {Number} id
- * @prop {Reply|UserId|Message|ReplayFrame|ScoreFrame|UserQuit|Match|MatchId|ChannelName|Channel|MessageString|
- *          Friends|TitleImage|UserPresence|Length|GamePassword|UserIds|Protocol|Permissions|OsuUpdate|ServerHost|null} data
+ * @prop {Message|ReplayFrame|ScoreFrame|UserQuit|Match|Channel|String|Array|Number
+ *         |UserPresence|OsuUpdate|ServerHost|null} data
  */

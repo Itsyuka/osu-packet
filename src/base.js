@@ -297,23 +297,27 @@ class Base {
      */
     Parse() {
         let packets = [];
-        while (true) {
+        let killed = false;
+        while (!killed) {
             let id;
             let length;
             let raw;
 
             if (!this.buffer.canRead(7)) {
-                break;
+                killed = true;
             }
             id = this.buffer.ReadInt16();
             this.buffer.ReadBoolean();
             length = this.buffer.ReadInt32();
             raw = this.buffer.Slice(length);
-            try {
-                packets.push(this[`Read${Packet.idToString[id]}`](raw));
-            } catch (e) {}
+            if(typeof this[`Read${Packet.idToString[id]}`] !== "undefined") {
+                try {
+                    packets.push(this[`Read${Packet.idToString[id]}`](raw));
+                } catch (e) {
+                    // Some error ¯\_(ツ)_/¯
+                }
+            }
         }
-
         return packets;
     }
 

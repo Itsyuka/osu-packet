@@ -121,12 +121,12 @@ class Reader {
             buff = OsuBuffer.from(raw);
         }
         let data = {};
-        if (layout instanceof Object) {
-            data = this.Read(buff, layout);
-        } else if (layout instanceof Array) {
+        if (layout instanceof Array) {
             layout.forEach(item => {
                 data[item.name] = this.Read(buff, item);
             });
+        } else if (layout instanceof Object) {
+            data = this.Read(buff, layout);
         }
         return data;
     }

@@ -254,6 +254,7 @@ module.exports = {
  * @prop {Number} matchTeamType
  * @prop {Number} specialModes
  * @prop {Array} slotMods
+ * @prop {Number} seed
  */
 
 /**

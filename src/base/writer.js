@@ -100,14 +100,14 @@ class Writer {
                 break;
             case 'multislots': {
                 for (let a = 0; a < 16; a++) {
-                    buff.WriteByte(o[a].status);
+                    buff.WriteByte(o.data[a].status);
                 }
                 for (let b = 0; b < 16; b++) {
-                    buff.WriteByte(o[b].team);
+                    buff.WriteByte(o.data[b].team);
                 }
                 for (let c = 0; c < 16; c++) {
-                    if ((o[c].status & (4 | 8 | 16 | 32 | 64)) > 0) {
-                        buff.WriteInt32(o[c].playerId);
+                    if ((o.data[c].status & (4 | 8 | 16 | 32 | 64)) > 0) {
+                        buff.WriteInt32(o.data[c].playerId);
                     }
                 }
                 break;
@@ -117,9 +117,9 @@ class Writer {
              * This is only for multiplayer stuff, will break anything if you use it elsewhere
              */
             case 'multislotmods': {
-                if ((o['specialModes'] & 1) > 0) {
+                if ((o.requires & 1) > 0) {
                     for (let i = 0; i < 16; i++) {
-                        buff.WriteUInt32(o[item.name][i].mods);
+                        buff.WriteUInt32(o.data[i].mods);
                     }
                 }
                 break;
@@ -140,9 +140,10 @@ class Writer {
         if (layout instanceof Array) {
             layout.forEach(item => {
                 buff.WriteBuffer(this.Write({
-                    data: data[item.name],
+                    data: item.uses?data[item.uses]:data[item.name],
                     type: item.type,
-                    nullable: item.nullable || false
+                    nullable: item.nullable || false,
+                    requires: item.requires?data[item.requires]:null,
                 }));
             });
         } else if (layout instanceof Object) {

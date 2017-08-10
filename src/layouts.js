@@ -17,7 +17,7 @@ module.exports = {
         {name: 'matchScoringType', type: 'byte'},
         {name: 'matchTeamType', type: 'byte'},
         {name: 'specialModes', type: 'byte'},
-        {name: 'slotMods', type: 'multislotmods'},
+        {name: 'slotMods', type: 'multislotmods', requires: 'specialModes', uses: 'slots'},
         {name: 'seed', type: 'int32'}
     ],
     multiplayerJoin: [

@@ -7,7 +7,7 @@ module.exports = {
         {name: 'matchType', type: 'byte'},
         {name: 'activeMods', type: 'uint32'},
         {name: 'gameName', type: 'string'},
-        {name: 'gamePassword', type: 'string'},
+        {name: 'gamePassword', type: 'string', nullable: true},
         {name: 'beatmapName', type: 'string'},
         {name: 'beatmapId', type: 'int32'},
         {name: 'beatmapChecksum', type: 'string'},

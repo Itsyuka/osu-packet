@@ -46,10 +46,10 @@ module.exports = {
         {name: 'currentMods', type: 'uint32'},
         {name: 'playMode', type: 'byte'},
         {name: 'beatmapId', type: 'int32'},
-        {name: 'rankedScore', type: 'uint64'},
+        {name: 'rankedScore', type: 'int64'},
         {name: 'accuracy', type: 'float'},
         {name: 'playCount', type: 'int32'},
-        {name: 'totalScore', type: 'uint64'},
+        {name: 'totalScore', type: 'int64'},
         {name: 'rank', type: 'int32'},
         {name: 'performance', type: 'int16'}
     ],

@@ -1,12 +1,13 @@
 {
   "name": "osu-packet",
-  "version": "2.1.1",
+  "version": "4.1.1",
   "lockfileVersion": 1,
+  "requires": true,
   "dependencies": {
     "osu-buffer": {
-      "version": "1.3.1",
-      "resolved": "https://registry.npmjs.org/osu-buffer/-/osu-buffer-1.3.1.tgz",
-      "integrity": "sha512-FigQKJ5C4784KiHBWoArj9NFmsvWQOGAXwVuNMWBtVzXgqJUce8D1t58SB/Wkipr6aSfCv+u5vjQ7a2oeFAZ6g=="
+      "version": "1.3.2",
+      "resolved": "https://registry.npmjs.org/osu-buffer/-/osu-buffer-1.3.2.tgz",
+      "integrity": "sha512-ZZ74vCjN45gwupssgv7AlZ4FPPqFeXZsZRtilzG/LzBloUYbK0MnoKfgqrCksGUdx2TlJT7r2K0lY8wnuUZxOg=="
     }
   }
 }
